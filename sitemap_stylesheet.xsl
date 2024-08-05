@@ -1,5 +1,3 @@
----
----
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet version="2.0"
                 xmlns:html="http://www.w3.org/TR/REC-html40"
@@ -34,7 +32,7 @@
             margin: 10px 3px;
             line-height: 1.3em;
           }
-          .expl a { color: {{ site.site-accent-color }}; }
+          .expl a { color: ; }
           a {
             color: #000;
             text-decoration: none;
