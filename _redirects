@@ -1,8 +1,11 @@
-https://www.mattgreydesign.com/* http://localhost:4000/:splat 301!
-https://mattgreydesign.com/* http://localhost:4000/:splat 301!
-http://www.mattgreydesign.com/* http://localhost:4000/:splat 301!
-http://mattgreydesign.com/* http://localhost:4000/:splat 301!
-/blog/* http://localhost:4000/:splat 301
+---
+# will generate redirects from redirect_from in page frontmatter
+---
+https://www.mattgreydesign.com/* {{ site.url }}/:splat 301!
+https://mattgreydesign.com/* {{ site.url }}/:splat 301!
+http://www.mattgreydesign.com/* {{ site.url }}/:splat 301!
+http://mattgreydesign.com/* {{ site.url }}/:splat 301!
+/blog/* {{ site.url }}/:splat 301
 
 /portfolio / 301
 /projects / 301
@@ -12,5 +15,8 @@ http://mattgreydesign.com/* http://localhost:4000/:splat 301!
 /projects/saving-lives-sea / 301
 /projects/usa-just-brand / 301
 
-/portfolio / 301
-
+{% for page in site.posts %}{% if page.redirect_from %}{{ page.redirect_from }} {{ page.url }} 301
+{% endif %}{% endfor %}{% for page in site.html_pages %}{% if page.redirect_from %}{{ page.redirect_from }} {{ page.url }} 301
+{% endif %}{% endfor %}{% for collection in site.collections %}{% unless collection.last.output == false or collection.output == false or collection.label == 'posts' %}{% for doc in collection.last.docs %}{% if doc.redirect_from %}{{ doc.redirect_from }} {{ doc.url | replace:'/index.html','/' | normalize_url }} 301
+{% endif %}{% endfor %}{% for doc in collection.docs %}{% if doc.redirect_from %}
+{{ doc.redirect_from }} {{ doc.url | replace:'/index.html','/' | normalize_url }} 301{% endif %}{% endfor %}{% endunless %}{% endfor %}
