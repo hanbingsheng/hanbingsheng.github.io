@@ -9,7 +9,7 @@ media:
 ownership: Personal
 client:
 time_period: 2018
-thumbnail: "/projects/Zhong-thumbnail.png"
+thumbnail: "/projects/zhong-thumbnail.png"
 
 intro: |
   > Roma can be built in a day.
@@ -19,7 +19,7 @@ content_layout:
     images:
       - caption:
         description:
-        url: '/projects/Zhong-1.png'
+        url: '/projects/zhong-1.png'
         width: 
         height:
 
@@ -27,7 +27,7 @@ content_layout:
     images:
       - caption:
         description: 
-        url: '/projects/Zhong-2.png'
+        url: '/projects/zhong-2.png'
         width: 
         height:
 
