@@ -38,7 +38,7 @@ This site runs on Jekyll, an opensource static site generating platform.
 ## General information
 
 - Static website
-- Optimised for efficient [PageSpeed Insights benchmarks](https://developers.google.com/speed/pagespeed/insights/?url=himatt.com) (still more to do in this space)
+- Optimised for efficient [PageSpeed Insights benchmarks](https://developers.google.com/speed/pagespeed/insights/?url=hanbingsheng.com) (still more to do in this space)
 - No Jekyll plugin dependancies (previously used Bourbon and Neat, now uses CSS Grid and CSS Custom properties)
 - Continuously deployed using Netlify
 

@@ -23,7 +23,7 @@ long-title: Han's Design
 email: mhankhe@gmail.com
 description: "The portfolio of Suzhou based UI/UX designer Han Bingsheng"
 baseurl: "/" # the subpath of your site, e.g. /blog
-url: "http://hanbingsheng.github.io" # the base hostname & protocol for your site
+url: "https://hanbingsheng.com" # the base hostname & protocol for your site
 timezone: Asia/Shanghai
 year: 2024
 start-year: 2024
