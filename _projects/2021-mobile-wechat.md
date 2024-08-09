@@ -8,7 +8,7 @@ disciplines: Graphic, Media
 media: App
 ownership: Personal
 client:
-time_period: 2020
+time_period: 2021
 thumbnail: "/projects/wechat-thumbnail.png"
 
 intro: |
