@@ -1,5 +1,5 @@
 ---
-date: 2020-03-20
+date: 2021-03-20
 published: true
 title: "Mobile Cloud Wechat \"OA\" Redesign"
 description: "Mobile Cloud Wechat Official Account Header and Footer Visual Redesign"

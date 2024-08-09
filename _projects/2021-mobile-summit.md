@@ -1,5 +1,5 @@
 ---
-date: 2020-03-20
+date: 2021-03-20
 published: true
 title: "  China Mobile Cloud City Summit "
 description: "China Mobile Cloud City Summit"
