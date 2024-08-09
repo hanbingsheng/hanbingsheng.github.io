@@ -1,5 +1,5 @@
 ---
-date: 2021-01-20
+date: 2021-04-20
 published: true
 title: "Cubox 6.0 Design"
 description: "Cubox 6.0 Design"
