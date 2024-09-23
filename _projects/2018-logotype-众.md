@@ -13,7 +13,7 @@ thumbnail: "/projects/zhong-thumbnail.png"
 
 intro: |
   > <i>Roma can be built in a day.</i>
-  <p>The Yangtze River Delta International Cultural Industries Expo is a significant cultural event showcasing the region's achievements in cultural industries. It brings together various cultural, creative, and technological enterprises to exhibit their innovations and foster collaboration.</p>
+  <p>The platform "Zhongyi" is a collaborative translation platform aimed at completing translation projects quickly and efficiently. The founder hopes that its logo can reflect the following platform characteristics: 1. Collaborative crowdsourcing; 2. Speed and efficiency..</p>
 
 content_layout:
   - section_layout: 1col-narrow
