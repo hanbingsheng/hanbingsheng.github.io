@@ -30,7 +30,7 @@ $thumb-animation-ease-out: ease-in-out;
   }
 }
 
-.projects-intro-wrapper {
+/* .projects-intro-wrapper {
   @extend .grid-container;
 
   .projects-intro {
@@ -46,6 +46,26 @@ $thumb-animation-ease-out: ease-in-out;
 
     @include grid-media(desktop) {
       @include grid-column-from-to(1,8);
+    }
+  }
+} */
+
+.projects-intro-wrapper {
+  @extend .grid-container;
+
+  .projects-intro {
+    @include grid-column(6);
+
+    @include grid-media(phablet) {
+      @include grid-column-from-to(1,6);
+    }
+
+    @include grid-media(tablet) {
+      @include grid-column-from-to(1,6);
+    }
+
+    @include grid-media(desktop) {
+      @include grid-column-from-to(1,6);
     }
   }
 }
