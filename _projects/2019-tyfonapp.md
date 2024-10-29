@@ -2,7 +2,7 @@
 date: 2019-09-20
 published: true
 title: "Tyfon Artwork Collection App"
-description: "Integration of Technology and Culture Innovation Development Forum"
+description: "Tyfon's app offers a comprehensive digital marketplace for Chinese artwork"
 categories: 
 disciplines: Mobile, App, UI, UX
 media: 
@@ -33,8 +33,16 @@ content_layout:
         width: 
         height:
 
+  - section_layout: 1col-narrow
+    images:
+      - caption:
+        description: 
+        url: '/projects/tyfon-3.png'
+        width: 
+        height:
+
 ---
 
 <div class="responsive-iframe-container">
-  <iframe src="https://embed.figma.com/proto/SD0S7OKJjIzVrQskNXzB7C/TYFON-APP?page-id=0%3A1&node-id=1-5&node-type=frame&viewport=1829%2C338%2C0.29&scaling=scale-down&content-scaling=fixed&embed-host=share" allowfullscreen="true"></iframe>
+  <iframe src="https://embed.figma.com/proto/SD0S7OKJjIzVrQskNXzB7C/TYFON-APP?page-id=104%3A1722&node-id=104-1723&node-type=frame&viewport=1101%2C395%2C0.24&scaling=scale-down&content-scaling=fixed&embed-host=share" allowfullscreen="true"></iframe>
 </div>
