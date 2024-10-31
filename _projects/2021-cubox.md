@@ -13,7 +13,7 @@ thumbnail: "/projects/cubox-thumbnail.png"
 
 intro: |
   Cubox is a powerful tool designed to help users organize their information efficiently. It offers features like bookmarking, tagging, and categorizing to streamline the management of articles, documents, and other content. Cubox is available across multiple platforms, ensuring seamless access to your organized data anytime, anywhere. 
-  <p>I helped the Cubox team complete the design of the main interfaces for both desktop and mobile versions and designed the new annotation and comment system (as shown in the video at 00:15-00:41s).</p>
+  <p>I helped the Cubox team complete the design of the main interfaces for both desktop and mobile versions and designed the new annotation and comment system (<a href="https://www.bilibili.com/video/BV1ft4y1c7CH?p=7&t=15">as shown in the video at 00:15-00:41s</a>).</p>
 
 content_layout:
 
