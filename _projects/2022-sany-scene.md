@@ -12,14 +12,15 @@ time_period: 2022
 thumbnail: "/projects/scene-thumbnail.png"
 
 intro: |
-  "SANY's Future Intelligent Drilling Rig Scenarios" describes the envisioned usage of SANY's drilling rigs in the future, including various interconnected scenarios and cloud services.
+  <p>"SANY's Future Intelligent Drilling Rig Scenarios" describes the envisioned usage of SANY's drilling rigs in the future, including various interconnected scenarios and cloud services.</p>
+  <p>You can scroll to the bottom of the page to view the dynamic display (Figma prototype).</p>
 
 content_layout:
   - section_layout: 1col-narrow
     images:
       - caption: Core Intelligent Features
         description: 
-        url: '/projects/scene-1.png'
+        url: '/projects/scene-1.gif'
         width: 
         height:
 
