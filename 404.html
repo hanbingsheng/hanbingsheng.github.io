@@ -5,7 +5,757 @@ sitemap: false
 permalink: /404
 ---
 
-This page was either moved, or it never existed in the first place.
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>问卷编辑系统</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            height: 100vh;
+            overflow: hidden;
+        }
+        
+        /* 顶部菜单区域 */
+        .header {
+            background: linear-gradient(135deg, #1e5799, #207cca);
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        
+        .logo i {
+            font-size: 1.8rem;
+        }
+        
+        .menu-buttons {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .menu-btn {
+            background-color: rgba(255,255,255,0.15);
+            border: none;
+            color: white;
+            padding: 8px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 14px;
+        }
+        
+        .menu-btn:hover {
+            background-color: rgba(255,255,255,0.25);
+        }
+        
+        .menu-btn.save {
+            background-color: #28a745;
+        }
+        
+        .menu-btn.preview {
+            background-color: #17a2b8;
+        }
+        
+        .menu-btn.publish {
+            background-color: #dc3545;
+        }
+        
+        /* 主体布局 */
+        .container {
+            display: flex;
+            height: calc(100vh - 60px);
+            padding-top: 60px;
+        }
+        
+        /* 左侧控件区域 */
+        .sidebar {
+            width: 260px;
+            background-color: #fff;
+            padding: 20px 15px;
+            overflow-y: auto;
+            box-shadow: 2px 0 5px rgba(0,0,0,0.05);
+            z-index: 100;
+        }
+        
+        .sidebar-section {
+            margin-bottom: 25px;
+        }
+        
+        .sidebar-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #1e5799;
+            margin-bottom: 15px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .control-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        .control-item {
+            background-color: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 6px;
+            padding: 12px 15px;
+            cursor: move;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.2s;
+            font-size: 14px;
+        }
+        
+        .control-item:hover {
+            background-color: #e9f7fe;
+            border-color: #b8e2fb;
+            transform: translateY(-2px);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        
+        .control-item i {
+            color: #1e5799;
+            font-size: 18px;
+        }
+        
+        /* 中间问卷区域 */
+        .main-content {
+            flex: 1;
+            padding: 25px 20px;
+            overflow-y: auto;
+            background-color: #f0f2f5;
+            display: flex;
+            justify-content: center;
+        }
+        
+        .question-container {
+            width: 100%;
+            max-width: 800px;
+            min-height: 90%;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.08);
+            padding: 30px 40px;
+            position: relative;
+        }
+        
+        .question-container:before {
+            content: "";
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            right: 10px;
+            bottom: 10px;
+            border: 1px dashed #e0e0e0;
+            border-radius: 4px;
+            pointer-events: none;
+        }
+        
+        .question-item {
+            background-color: #fff;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            position: relative;
+            transition: all 0.3s;
+            cursor: move;
+        }
+        
+        .question-item:hover {
+            border-color: #64b5f6;
+            box-shadow: 0 2px 10px rgba(100, 181, 246, 0.2);
+        }
+        
+        .question-item.ui-sortable-helper {
+            transform: rotate(2deg);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .question-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #333;
+        }
+        
+        .question-required {
+            color: #f44336;
+        }
+        
+        .options-container {
+            margin: 10px 0;
+        }
+        
+        .option-item {
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .option-item input {
+            margin-right: 10px;
+        }
+        
+        .text-input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        
+        .question-delete {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #ffebee;
+            border: none;
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            color: #f44336;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: all 0.2s;
+        }
+        
+        .question-item:hover .question-delete {
+            opacity: 1;
+        }
+        
+        .empty-prompt {
+            text-align: center;
+            color: #9e9e9e;
+            padding: 40px 20px;
+        }
+        
+        .empty-prompt i {
+            font-size: 48px;
+            margin-bottom: 15px;
+            color: #e0e0e0;
+        }
+        
+        /* 右侧设置区域 */
+        .settings-panel {
+            width: 320px;
+            background-color: #fff;
+            padding: 20px 15px;
+            overflow-y: auto;
+            box-shadow: -2px 0 5px rgba(0,0,0,0.05);
+            z-index: 100;
+        }
+        
+        .settings-header {
+            font-size: 18px;
+            font-weight: 600;
+            color: #1e5799;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .settings-section {
+            margin-bottom: 25px;
+        }
+        
+        .settings-title {
+            font-size: 15px;
+            font-weight: 500;
+            color: #555;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 14px;
+            color: #666;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        
+        .form-control:focus {
+            border-color: #64b5f6;
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(100, 181, 246, 0.2);
+        }
+        
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .options-list {
+            margin-top: 10px;
+        }
+        
+        .option-row {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+            gap: 8px;
+        }
+        
+        .option-row input {
+            flex: 1;
+        }
+        
+        .option-action {
+            background: #f5f5f5;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            width: 32px;
+            height: 32px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .option-action:hover {
+            background: #e9ecef;
+        }
+        
+        .add-option {
+            margin-top: 10px;
+            padding: 8px 15px;
+            background: #e3f2fd;
+            border: 1px solid #bbdefb;
+            border-radius: 4px;
+            color: #0d47a1;
+            font-size: 14px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .add-option:hover {
+            background: #bbdefb;
+        }
+        
+        /* 响应式调整 */
+        @media (max-width: 1200px) {
+            .sidebar, .settings-panel {
+                width: 240px;
+            }
+        }
+        
+        @media (max-width: 992px) {
+            .sidebar {
+                width: 200px;
+            }
+            .settings-panel {
+                width: 280px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 顶部菜单区域 -->
+    <div class="header">
+        <div class="logo">
+            <i class="fas fa-poll"></i>
+            <span>问卷编辑系统</span>
+        </div>
+        <div class="menu-buttons">
+            <button class="menu-btn save"><i class="fas fa-save"></i> 保存草稿</button>
+            <button class="menu-btn preview"><i class="fas fa-eye"></i> 预览</button>
+            <button class="menu-btn publish"><i class="fas fa-paper-plane"></i> 发布问卷</button>
+            <button class="menu-btn"><i class="fas fa-arrow-left"></i> 返回上级</button>
+        </div>
+    </div>
+    
+    <div class="container">
+        <!-- 左侧控件区域 -->
+        <div class="sidebar">
+            <div class="sidebar-section">
+                <h3 class="sidebar-title"><i class="fas fa-chart-line"></i> 引用指标</h3>
+                <div class="control-list">
+                    <div class="control-item" data-type="reference">
+                        <i class="fas fa-link"></i>
+                        <span>教学质量评价指标</span>
+                    </div>
+                    <div class="control-item" data-type="reference">
+                        <i class="fas fa-link"></i>
+                        <span>学习效果评价指标</span>
+                    </div>
+                    <div class="control-item" data-type="reference">
+                        <i class="fas fa-link"></i>
+                        <span>课程内容评价指标</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="sidebar-section">
+                <h3 class="sidebar-title"><i class="fas fa-shapes"></i> 通用题型</h3>
+                <div class="control-list">
+                    <div class="control-item" data-type="single">
+                        <i class="far fa-dot-circle"></i>
+                        <span>单选题</span>
+                    </div>
+                    <div class="control-item" data-type="multiple">
+                        <i class="far fa-check-square"></i>
+                        <span>多选题</span>
+                    </div>
+                    <div class="control-item" data-type="text">
+                        <i class="fas fa-font"></i>
+                        <span>文本题</span>
+                    </div>
+                    <div class="control-item" data-type="drag">
+                        <i class="fas fa-arrows-alt"></i>
+                        <span>拖拉题</span>
+                    </div>
+                    <div class="control-item" data-type="matrix-rating">
+                        <i class="fas fa-th"></i>
+                        <span>矩阵评分题</span>
+                    </div>
+                    <div class="control-item" data-type="matrix-single">
+                        <i class="fas fa-border-all"></i>
+                        <span>矩阵单选题</span>
+                    </div>
+                    <div class="control-item" data-type="fill">
+                        <i class="fas fa-pencil-alt"></i>
+                        <span>填空题</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="sidebar-section">
+                <h3 class="sidebar-title"><i class="fas fa-comment-dots"></i> 反馈题型</h3>
+                <div class="control-list">
+                    <div class="control-item" data-type="feedback">
+                        <i class="fas fa-comments"></i>
+                        <span>意见反馈</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 中间问卷展示区域 -->
+        <div class="main-content">
+            <div class="question-container" id="questionContainer">
+                <div class="empty-prompt" id="emptyPrompt">
+                    <i class="fas fa-inbox"></i>
+                    <h3>问卷内容为空</h3>
+                    <p>请从左侧拖拽或点击控件添加题目</p>
+                </div>
+                
+                <!-- 题目将通过JS动态添加到这里 -->
+            </div>
+        </div>
+        
+        <!-- 右侧控件设置区域 -->
+        <div class="settings-panel">
+            <div class="settings-header">
+                <i class="fas fa-cog"></i> 题目设置
+            </div>
+            
+            <div class="settings-section">
+                <h4 class="settings-title"><i class="fas fa-heading"></i> 基础设置</h4>
+                <div class="form-group">
+                    <label>标题</label>
+                    <input type="text" class="form-control" placeholder="请输入问题标题">
+                </div>
+                <div class="form-group">
+                    <label>备注</label>
+                    <input type="text" class="form-control" placeholder="请输入问题备注">
+                </div>
+                <div class="form-group">
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="required">
+                        <label for="required">是否必答</label>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="settings-section">
+                <h4 class="settings-title"><i class="fas fa-filter"></i> 内容设置</h4>
+                <div class="form-group">
+                    <label>评价维度</label>
+                    <select class="form-control">
+                        <option>请选择评价维度</option>
+                        <option>教学质量</option>
+                        <option>学习效果</option>
+                        <option>课程内容</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>指标点</label>
+                    <select class="form-control">
+                        <option>请选择指标点</option>
+                        <option>教学态度</option>
+                        <option>教学内容</option>
+                        <option>教学方法</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>适用课程类型</label>
+                    <select class="form-control">
+                        <option>请选择课程类型</option>
+                        <option>理论课程</option>
+                        <option>实验课程</option>
+                        <option>实践课程</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="settings-section">
+                <h4 class="settings-title"><i class="fas fa-list"></i> 选项设置</h4>
+                <div class="options-list">
+                    <div class="option-row">
+                        <input type="text" class="form-control" placeholder="选项1" value="非常满意">
+                        <button class="option-action"><i class="fas fa-trash"></i></button>
+                        <button class="option-action"><i class="fas fa-arrows-alt-v"></i></button>
+                    </div>
+                    <div class="option-row">
+                        <input type="text" class="form-control" placeholder="选项2" value="满意">
+                        <button class="option-action"><i class="fas fa-trash"></i></button>
+                        <button class="option-action"><i class="fas fa-arrows-alt-v"></i></button>
+                    </div>
+                    <div class="option-row">
+                        <input type="text" class="form-control" placeholder="选项3" value="一般">
+                        <button class="option-action"><i class="fas fa-trash"></i></button>
+                        <button class="option-action"><i class="fas fa-arrows-alt-v"></i></button>
+                    </div>
+                    <div class="option-row">
+                        <input type="text" class="form-control" placeholder="选项4" value="不满意">
+                        <button class="option-action"><i class="fas fa-trash"></i></button>
+                        <button class="option-action"><i class="fas fa-arrows-alt-v"></i></button>
+                    </div>
+                </div>
+                <button class="add-option"><i class="fas fa-plus"></i> 添加选项</button>
+            </div>
+        </div>
+    </div>
 
-
-[Return to homepage](/)
+    <script>
+        $(document).ready(function() {
+            // 初始化拖拽功能
+            $(".control-item").draggable({
+                revert: "invalid",
+                helper: "clone",
+                cursor: "move",
+                zIndex: 100
+            });
+            
+            $("#questionContainer").droppable({
+                accept: ".control-item",
+                drop: function(event, ui) {
+                    const type = ui.draggable.data("type");
+                    addQuestion(type);
+                }
+            });
+            
+            // 添加排序功能
+            $("#questionContainer").sortable({
+                items: ".question-item",
+                placeholder: "ui-sortable-placeholder",
+                opacity: 0.7,
+                cursor: "move",
+                handle: ".question-item",
+                update: function() {
+                    // 更新题目顺序逻辑
+                }
+            });
+            
+            // 添加题目函数
+            function addQuestion(type) {
+                // 隐藏空提示
+                $("#emptyPrompt").hide();
+                
+                let questionHtml = '';
+                const questionId = Date.now();
+                
+                switch(type) {
+                    case 'single':
+                        questionHtml = `
+                            <div class="question-item" data-id="${questionId}" data-type="single">
+                                <button class="question-delete"><i class="fas fa-times"></i></button>
+                                <div class="question-title">单选题 <span class="question-required">*</span></div>
+                                <div class="options-container">
+                                    <div class="option-item">
+                                        <input type="radio" name="option-${questionId}"> 
+                                        <label>选项1</label>
+                                    </div>
+                                    <div class="option-item">
+                                        <input type="radio" name="option-${questionId}"> 
+                                        <label>选项2</label>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                        break;
+                    case 'multiple':
+                        questionHtml = `
+                            <div class="question-item" data-id="${questionId}" data-type="multiple">
+                                <button class="question-delete"><i class="fas fa-times"></i></button>
+                                <div class="question-title">多选题 <span class="question-required">*</span></div>
+                                <div class="options-container">
+                                    <div class="option-item">
+                                        <input type="checkbox"> 
+                                        <label>选项1</label>
+                                    </div>
+                                    <div class="option-item">
+                                        <input type="checkbox"> 
+                                        <label>选项2</label>
+                                    </div>
+                                    <div class="option-item">
+                                        <input type="checkbox"> 
+                                        <label>选项3</label>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                        break;
+                    case 'text':
+                        questionHtml = `
+                            <div class="question-item" data-id="${questionId}" data-type="text">
+                                <button class="question-delete"><i class="fas fa-times"></i></button>
+                                <div class="question-title">文本题 <span class="question-required">*</span></div>
+                                <textarea class="text-input" placeholder="请输入您的回答" rows="3"></textarea>
+                            </div>
+                        `;
+                        break;
+                    case 'feedback':
+                        questionHtml = `
+                            <div class="question-item" data-id="${questionId}" data-type="feedback">
+                                <button class="question-delete"><i class="fas fa-times"></i></button>
+                                <div class="question-title">意见反馈 <span class="question-required">*</span></div>
+                                <textarea class="text-input" placeholder="请输入您的宝贵意见" rows="4"></textarea>
+                            </div>
+                        `;
+                        break;
+                    default:
+                        questionHtml = `
+                            <div class="question-item" data-id="${questionId}" data-type="${type}">
+                                <button class="question-delete"><i class="fas fa-times"></i></button>
+                                <div class="question-title">${getTypeName(type)} <span class="question-required">*</span></div>
+                                <div class="text-input" style="background:#f9f9f9; height:40px;"></div>
+                            </div>
+                        `;
+                }
+                
+                $(questionHtml).appendTo("#questionContainer");
+                
+                // 重新初始化排序
+                $("#questionContainer").sortable("refresh");
+                
+                // 添加删除事件
+                $(".question-delete").off("click").on("click", function() {
+                    $(this).closest(".question-item").remove();
+                    if($("#questionContainer .question-item").length === 0) {
+                        $("#emptyPrompt").show();
+                    }
+                });
+            }
+            
+            // 获取题型名称
+            function getTypeName(type) {
+                const typeNames = {
+                    'drag': '拖拉题',
+                    'matrix-rating': '矩阵评分题',
+                    'matrix-single': '矩阵单选题',
+                    'fill': '填空题'
+                };
+                return typeNames[type] || type;
+            }
+            
+            // 点击添加题目
+            $(".control-item").on("click", function() {
+                const type = $(this).data("type");
+                addQuestion(type);
+            });
+            
+            // 添加选项
+            $(".add-option").on("click", function() {
+                const newOption = `
+                    <div class="option-row">
+                        <input type="text" class="form-control" placeholder="新选项">
+                        <button class="option-action"><i class="fas fa-trash"></i></button>
+                        <button class="option-action"><i class="fas fa-arrows-alt-v"></i></button>
+                    </div>
+                `;
+                $(this).before(newOption);
+            });
+            
+            // 删除选项
+            $(document).on("click", ".option-action .fa-trash", function() {
+                $(this).closest(".option-row").remove();
+            });
+            
+            // 顶部按钮事件
+            $(".menu-btn.save").on("click", function() {
+                alert("问卷已保存为草稿");
+            });
+            
+            $(".menu-btn.preview").on("click", function() {
+                alert("预览功能将在新窗口打开");
+            });
+            
+            $(".menu-btn.publish").on("click", function() {
+                if(confirm("确定要发布问卷吗？")) {
+                    alert("问卷发布成功！");
+                }
+            });
+        });
+    </script>
+</body>
+</html>
